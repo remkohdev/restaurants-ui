@@ -1,0 +1,40 @@
+<ion-header no-border>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      Search
+    </ion-title>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="11">
+        <ion-searchbar [(ngModel)]="searchTerm"></ion-searchbar>
+      </ion-col>
+      <ion-col size="1">
+        <ion-buttons>
+          <button ion-button icon-only (click)="searchByName()">
+            <ion-icon name="search"></ion-icon>
+          </button>
+        </ion-buttons>
+      </ion-col>  
+    </ion-row>
+  </ion-grid>
+  <div #mapElement id="map"></div>
+  <div #markersList>
+    <ion-list>
+      <ion-item *ngFor="let place of places; let i = index" (click)="openDetail(place)">
+        <ion-card id="restaurantCard">
+          <ion-card-header>
+            <p>{{place.name}}</p>
+          </ion-card-header>
+          <ion-card-content>
+            
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

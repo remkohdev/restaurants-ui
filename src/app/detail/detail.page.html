@@ -1,0 +1,53 @@
+<ion-header no-border>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      Detail
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- hack to make sure I can use the google.service, but there should be a cleaner way -->
+<div #placeElement id="map"></div>
+<ion-content>
+    <ion-card id="restaurantCard">
+      <ion-card-header>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <h1>{{place.name}}</h1>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="2">
+              <p>Rating: {{place.rating}}</p>
+            </ion-col>
+            <ion-col size="2">
+              <p>Reviews: {{place.user_ratings_total}}</p>
+            </ion-col>
+            <ion-col size="2">
+              <p>Price: {{place.price_level}}</p>
+            </ion-col>
+            <ion-col size="6"></ion-col>
+          </ion-row>
+          <ion-row>
+            <p>{{place.types.join(', ')}}</p>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <p>{{place.vicinity}}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let review of placeDetails.reviews; let i = index">
+            <ion-col>
+              <p><b>{{review.author_name}}</b>, rating: {{review.rating}}<br>
+              {{review.text}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+</ion-content>
