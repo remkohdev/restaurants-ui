@@ -26,6 +26,7 @@ Major:
 * Use proper property binding
 
 Minor:
+* Create restaurant-detail, restaurant-list, restaurant-item components
 * Make 'use my location' optional, now it is default 
 * remove item border bottom shadow on search list
 * Fix search icon size
