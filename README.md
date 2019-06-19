@@ -11,36 +11,24 @@ Screens:
 ionic serve
 ```
 
-Note: Link to detail page, needs a refresh still. Click on the page to trigger refresh. 
+# TODOs
+Bugs:
+* Page is already finished loading, while async getPlaceDetails is not done yet, so when you load the detail page, the previous detail (on first load this is null) is still showing, so wait for results or detect changes (use Observable?)
 
-## Notes
+Major:
+* State
+    * Storing Search or Details State as is done in a React-Redux application is an option, but given the constant filtering of data and the mobile nature of the user, this might be futile. I chose not to persist state.
+* Move the map object and methods all to the Google service component, and subscribe to location change, so that only when location changes, the map reloads, now it is being created at every page load,
+* Add Tone to each PlaceDetail,
+* Add History and 'Add Rating' option, onClick save ratings to database, and for each Place search for rating,
+* Move credentials to .creds file, add .creds to .gitignore
+* Add Authentication and personalization,
+* Use proper property binding
 
-Search, Detail and History pages are not protected by a GuardService, but each page attempts to load with personalized data first if the user is logged in, otherwise generic data will be displayed. 
-
-# Storing State
-Storing State as is done in a React-Redux application is an option, but given the constant filtering of data and the mobile nature of the user, this might be futile. I chose not to persist state.
-
-TODOs 1:
-* use a sentiment analysis tool (for example Turi Create Sentiment Analysis, or any other sentiment analysis tool) to show the sentiment of restaurant-goers reviews to help the user
-decide where to dine.
-* Add History, history of the places they have visited and rated.
-* user can add their own thumbs up or down
-* Design and create a database that can handle all the requirements of this project and can
-potentially be deployed as a service or in a container
-* Add dockerfile, docker-compose
-* Pass in only the placeId and use placeDetails instead of place
-
-TODOs 2:
-* add filters to search page: 
-    * O 'use my location' and 
-* hide login/logout when respectively isAuthenticated equals false/true
-* add login cancel button
+Minor:
+* Make 'use my location' optional, now it is default 
 * remove item border bottom shadow on search list
 * Fix search icon size
-* Move all map functions to GoogleService
-* Add place to detail pace without exposing Get parameters
-* Save previous state/search list
 * Add back button on detail page to return to search list
 * Reuse the same component in infoWindow as in Detail page
-
-Alternatively use expand list item to view details (e.g. https://www.youtube.com/watch?v=0-goeHxBc8c)
+* Alternatively use expand list item to view details (e.g. https://www.youtube.com/watch?v=0-goeHxBc8c)

@@ -49,6 +49,7 @@ export class SearchPage implements OnInit {
 
     const watch = this.geolocation.watchPosition();
     watch.subscribe((data) => {
+      // TODO location change
       // data.coords.latitude
       // data.coords.longitude
       //console.log(data);
@@ -57,16 +58,16 @@ export class SearchPage implements OnInit {
   }
 
   openDetail(place) {
-    const extras: NavigationExtras = {
+    const params: NavigationExtras = {
       queryParams: {
-        place: JSON.stringify(place)
+        id: place.place_id,
+        location: JSON.stringify(this.currentLocation)
       }
     };
-    this.router.navigate( ['tabs/detail'], extras );
+    this.router.navigate( [`tabs/detail`], params );
   }
 
   searchByName() {
-    console.log(`=====>searchByName`);
     if ( !this.searchTerm) {
       return false;
     }
@@ -77,13 +78,9 @@ export class SearchPage implements OnInit {
 
   loadRestaurants() {
     // load map of restaurants
-    console.log(`=====> searchTerm`);
-    console.log(this.searchTerm);
     this.googleService.getRestaurants(this.map, this.currentLocation, this.radius, this.searchTerm)
     .then( (restaurants ) => {
       this.clearMap();
-      console.log(`=====>restaurants.length`);
-      console.log(restaurants.length);
       for (const restaurant of restaurants) {
         // TODO subscribe to this.places?
         this.places.push(restaurant);

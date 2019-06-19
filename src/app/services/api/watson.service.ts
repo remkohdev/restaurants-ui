@@ -15,7 +15,7 @@ export class WatsonService {
     return new Promise( (resolve, reject) => {
 
       const apikey = 'see .creds';
-      const authorizationToken = 'Basic see .creds';
+      const authorizationToken = 'see .creds';
 
       const url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21';
 

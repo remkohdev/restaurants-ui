@@ -13,8 +13,9 @@ declare var google;
 
 export class DetailPage implements OnInit {
   // TODO replace place by replaceDetails
-  placeDetails: any;
+  placeId: any;
   place: any;
+  currentLocation: any;
   @ViewChild('placeElement') mapElement: ElementRef;
 
   constructor(
@@ -23,33 +24,39 @@ export class DetailPage implements OnInit {
     private googleService: GoogleService,
     private watsonService: WatsonService
   ) {
-    this.route.queryParams.subscribe( (params) => {
-      if (params && params.place) {
-        this.place = JSON.parse(params.place);
-        console.log(`=====> placeDetail`);
-        console.log(this.place);
-      }
-    });
+
   }
 
   ngOnInit() {
-    this.getPlaceDetails();
+    this.route.queryParams.pipe( (params) => params)
+    .subscribe(params => {
+      this.placeId = params.id;
+      const location = JSON.parse(params.location);
+      this.currentLocation = location;
+      this.getPlaceDetails();
+    });
   }
 
   getPlaceDetails() {
-    const placeId = this.place.place_id;
+    const placeId = this.placeId;
     const request = {
       placeId,
-      fields: ['name', 'rating', 'formatted_phone_number', 'geometry', 'reviews']
+      types: ['restaurant'],
+      fields: [
+        'name', 'rating', 'formatted_phone_number', 'geometry',
+        'reviews', 'opening_hours', 'vicinity', 'types',
+        'price_level', 'user_ratings_total', 'website'
+      ]
     };
-    const map = this.googleService.createMap(this.place.geometry.location, this.mapElement);
+    const mapLocation = new google.maps.LatLng(this.currentLocation.lat, this.currentLocation.lng);
+    const map = this.googleService.createMap(this.currentLocation, this.mapElement);
     const service = new google.maps.places.PlacesService(map);
     service.getDetails(request, (details, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         console.log(`=====>details`);
         console.log(details);
-        this.placeDetails = details;
-        this.getSentimentForReviews();
+        this.place = details;
+        //this.getSentimentForReviews();
       } else {
         console.log(`=====>details.status not OK: ${status}`);
       }
@@ -57,14 +64,11 @@ export class DetailPage implements OnInit {
   }
 
   getSentimentForReviews() {
-    for ( const review of this.placeDetails.reviews) {
-      console.log(`=====>review`);
-      console.log(review);
+    for ( const review of this.place.reviews) {
       this.watsonService.getTone(review.text)
       .then( (tone) => {
-        console.log(`=====>tone`);
-        console.log(tone);
         // TODO add tone to review
+        
       })
       .catch( (error) => {
         console.log(error);
