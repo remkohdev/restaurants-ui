@@ -5,6 +5,15 @@ Screens:
 * Detail: restaurant detail page with reviews
 * History: history of restaurants visited
 
+## Installation
+
+See https://ionicframework.com/docs/installation/cli
+
+## Config
+
+* Set the Google API apikey in index.html
+* Set the Watson Tone apikey in 'src/app/services/api/watson.service.ts'
+
 ## Run
 
 ```
